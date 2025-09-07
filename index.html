@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acute Respiratory Distress Syndrome (ARDS) - Comprehensive Resource</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #2c3e50;
@@ -67,6 +68,7 @@
             display: flex;
             justify-content: center;
             padding: 1rem 0;
+            flex-wrap: wrap;
         }
         
         nav a {
@@ -289,6 +291,68 @@
             text-decoration: underline;
         }
         
+        .image-placeholder {
+            background-color: #eee;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 1.5rem 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-style: italic;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .phase-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .phase-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .phase-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
         footer {
             background-color: var(--primary);
             color: white;
@@ -331,6 +395,10 @@
                 margin: 0.25rem;
                 padding: 0.5rem;
             }
+            
+            .phase-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -345,7 +413,8 @@
     <div class="nav-container">
         <nav class="container">
             <a href="#definition">Definition</a>
-            <a href="#etiology">Etiology</a>
+            <a href="#history">History</a>
+            <a href="#epidemiology">Epidemiology</a>
             <a href="#pathophysiology">Pathophysiology</a>
             <a href="#management">Management</a>
             <a href="#studies">Landmark Studies</a>
@@ -404,38 +473,71 @@
                     </tr>
                 </tbody>
             </table>
+            
+            <div class="image-placeholder">
+                [Image: Comparison of chest X-ray showing normal lungs vs. ARDS]
+            </div>
         </section>
         
-        <section id="etiology" class="section">
-            <h2><i class="fas fa-disease"></i> Etiology & Epidemiology</h2>
+        <section id="history" class="section">
+            <h2><i class="fas fa-history"></i> Historical Evolution</h2>
             
-            <div class="grid">
-                <div class="grid-item">
-                    <h3>Direct Lung Injury (Pulmonary)</h3>
-                    <ul>
-                        <li>Pneumonia (bacterial, viral, fungal)</li>
-                        <li>Aspiration of gastric contents</li>
-                        <li>Lung contusion</li>
-                        <li>Inhalational injury</li>
-                        <li>Drowning</li>
-                    </ul>
-                </div>
-                
-                <div class="grid-item">
-                    <h3>Indirect Lung Injury (Extrapulmonary)</h3>
-                    <ul>
-                        <li>Sepsis (most common)</li>
-                        <li>Severe trauma</li>
-                        <li>Pancreatitis</li>
-                        <li>Massive transfusion</li>
-                        <li>Drug overdose</li>
-                    </ul>
-                </div>
+            <div class="card">
+                <h3>1967: First Description</h3>
+                <p>Ashbaugh et al. first described a syndrome in 12 patients featuring acute dyspnea, hypoxemia refractory to oxygen, decreased lung compliance, and diffuse bilateral infiltrates.</p>
             </div>
             
             <div class="card">
-                <h3>Epidemiology</h3>
-                <p>ARDS affects approximately <strong>10% of ICU patients</strong> and <strong>23% of mechanically ventilated patients</strong> globally. Mortality ranges from 30-45% depending on severity, with higher rates in older patients and those with comorbidities. Many survivors experience long-term physical and neurocognitive impairment.</p>
+                <h3>1994: American-European Consensus Conference (AECC)</h3>
+                <p>Established the first formal criteria, introducing the term Acute Lung Injury (ALI) for PaO₂/FiO₂ ≤ 300 mmHg and ARDS for PaO₂/FiO₂ ≤ 200 mmHg.</p>
+                <p><strong>Limitations:</strong> Poor reliability of chest X-ray interpretation, lack of PEEP standardization, and problematic use of pulmonary artery catheters.</p>
+            </div>
+            
+            <div class="card">
+                <h3>2012: The Berlin Definition</h3>
+                <p>A pivotal evolution, addressing AECC's flaws through empirical evidence.</p>
+                <p><strong>Key Advances:</strong> Defined onset within 1 week of a known insult; mandated minimum PEEP of 5 cm H₂O; replaced PCWP with non-invasive assessment; introduced 3-tier severity stratification with strong prognostic correlation.</p>
+                <p><strong>Validation:</strong> The Berlin Definition showed better predictive validity for mortality compared to the AECC criteria (JAMA 2012;307(23):2526-2533).</p>
+            </div>
+            
+            <div class="card">
+                <h3>Future Directions</h3>
+                <p>The quest for a "biological phenotype" is ongoing. Research into biomarkers (e.g., IL-6, IL-8, sRAGE) aims to move beyond clinical criteria to identify endotypes (e.g., "hyperinflammatory" vs. "hypoinflammatory") for targeted therapies.</p>
+            </div>
+            
+            <div class="image-placeholder">
+                [Image: Timeline of ARDS definition evolution]
+            </div>
+        </section>
+        
+        <section id="epidemiology" class="section">
+            <h2><i class="fas fa-chart-line"></i> Epidemiology</h2>
+            
+            <div class="card">
+                <h3>Incidence</h3>
+                <p>Large-scale studies estimate a global incidence of 10-86 cases per 100,000 person-years, with significant regional variation. The COVID-19 pandemic led to an unprecedented surge in ARDS cases worldwide.</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="incidenceChart"></canvas>
+            </div>
+            
+            <div class="card">
+                <h3>Mortality</h3>
+                <p>Mortality is strongly linked to severity, comorbidities, and age. Pre-COVID meta-analyses place overall hospital mortality at approximately 35-45%.</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="mortalityChart"></canvas>
+            </div>
+            
+            <div class="card">
+                <h3>Risk Factors</h3>
+                <p>The most common direct risk factor is pneumonia (bacterial > viral). The most common indirect risk factor is non-pulmonary sepsis. Others include aspiration, trauma, pancreatitis, and massive transfusion.</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="riskFactorsChart"></canvas>
             </div>
         </section>
         
@@ -447,30 +549,53 @@
             </div>
             
             <h3>Pathophysiological Phases:</h3>
-            <div class="grid">
-                <div class="grid-item">
+            <div class="phase-container">
+                <div class="phase-card">
                     <h4>Exudative Phase (0-7 days)</h4>
                     <p>Alveolar edema, inflammatory cell infiltration, hyaline membrane formation, and loss of surfactant function</p>
                 </div>
                 
-                <div class="grid-item">
+                <div class="phase-card">
                     <h4>Proliferative Phase (7-21 days)</h4>
                     <p>Resolution of edema, fibroblast proliferation, and early lung repair</p>
                 </div>
                 
-                <div class="grid-item">
+                <div class="phase-card">
                     <h4>Fibrotic Phase (>21 days)</h4>
                     <p>Collagen deposition and fibrosis in some patients, leading to long-term functional impairment</p>
                 </div>
             </div>
             
-            <h3>Key Pathophysiological Mechanisms:</h3>
-            <ul>
-                <li>Dysregulated inflammatory response (TNF, IL-1, IL-6, IL-8)</li>
-                <li>Surfactant dysfunction leading to alveolar collapse</li>
-                <li>Microvascular thrombosis and endothelial injury</li>
-                <li>Activation of coagulation and impairment of fibrinolysis</li>
-            </ul>
+            <div class="image-placeholder">
+                [Image: Pathophysiological changes in ARDS - normal alveolus vs. injured alveolus]
+            </div>
+            
+            <h3>Key Pathophysiological Concepts:</h3>
+            <div class="grid">
+                <div class="grid-item">
+                    <h4>Diffuse Alveolar Damage (DAD)</h4>
+                    <p>The histopathological hallmark, though not universal. Features endothelial and epithelial injury, hyaline membrane formation, and alveolar edema.</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h4>"Baby Lung" Concept (Gattinoni)</h4>
+                    <p>The aerated lung in ARDS is not a small, healthy lung but a small, normally aerated compartment within a diseased, non-aerated one.</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h4>Ventilator-Induced Lung Injury (VILI)</h4>
+                    <p>A self-perpetuating injury from mechanical ventilation via volutrauma, barotrauma, atelectrauma, and biotrauma.</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h4>Patient-Self Inflicted Lung Injury (P-SILI)</h4>
+                    <p>Strong spontaneous inspiratory efforts can generate excessive negative pleural pressures, causing lung injury even without a ventilator.</p>
+                </div>
+            </div>
+            
+            <div class="image-placeholder">
+                [Image: Diagram illustrating the "Baby Lung" concept]
+            </div>
         </section>
         
         <section id="management" class="section">
@@ -486,7 +611,9 @@
                 </ul>
             </div>
             
-            <h3>Ventilatory Management</h3>
+            <h3>Mechanical Ventilation: The Cornerstone</h3>
+            <p>The goal is to ensure adequate gas exchange while minimizing VILI.</p>
+            
             <div class="grid">
                 <div class="grid-item">
                     <h4>Lung-Protective Ventilation</h4>
@@ -494,6 +621,7 @@
                         <li>Tidal volume: 6 mL/kg predicted body weight</li>
                         <li>Plateau pressure: ≤30 cmH₂O</li>
                         <li>Driving pressure: <15 cmH₂O</li>
+                        <li>Permissive hypercapnia (pH ≥ 7.15-7.25)</li>
                     </ul>
                 </div>
                 
@@ -515,6 +643,40 @@
                     </ul>
                 </div>
             </div>
+            
+            <div class="image-placeholder">
+                [Image: Mechanical ventilation settings for ARDS management]
+            </div>
+            
+            <h3>ARDSNet PEEP/FiO₂ Table</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>FiO₂</th>
+                        <th>0.3</th>
+                        <th>0.4</th>
+                        <th>0.5</th>
+                        <th>0.6</th>
+                        <th>0.7</th>
+                        <th>0.8</th>
+                        <th>0.9</th>
+                        <th>1.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>PEEP (cmH₂O)</strong></td>
+                        <td>5-8</td>
+                        <td>8-10</td>
+                        <td>10-12</td>
+                        <td>12-14</td>
+                        <td>14-16</td>
+                        <td>16-18</td>
+                        <td>18-20</td>
+                        <td>20-24</td>
+                    </tr>
+                </tbody>
+            </table>
             
             <h3>Rescue Therapies for Refractory Hypoxemia</h3>
             <table>
@@ -543,6 +705,17 @@
                     </tr>
                 </tbody>
             </table>
+            
+            <h3>Pharmacotherapy</h3>
+            <div class="card">
+                <h4>Corticosteroids</h4>
+                <p>The most evidence-supported pharmacologic adjunct. The DEXA-ARDS trial and subsequent meta-analysis showed that low-dose methylprednisolone reduces mortality and duration of mechanical ventilation in moderate-to-severe ARDS.</p>
+            </div>
+            
+            <div class="card">
+                <h4>Not Recommended</h4>
+                <p>Routine use of β-2 agonists, prostaglandins, surfactant, or statins.</p>
+            </div>
         </section>
         
         <section id="studies" class="section">
@@ -682,6 +855,16 @@
                 </tbody>
             </table>
             
+            <div class="card">
+                <h3>SCCM/ESICM 2023 Guidelines</h3>
+                <p>Strong for LPV and prone positioning; weak for corticosteroids and NMBA; recommend against routine use of iNO.</p>
+            </div>
+            
+            <div class="card">
+                <h3>American Thoracic Society (ATS) 2017 Guidelines</h3>
+                <p>Strong for LPV and prone positioning; conditional for use of ECMO; recommends against routine use of iNO or HFOV.</p>
+            </div>
+            
             <a href="https://www.atsjournals.org/doi/full/10.1164/rccm.201703-0548ST" class="btn" target="_blank">View Full Guidelines</a>
         </section>
         
@@ -710,5 +893,135 @@
             <p>This resource is intended for educational purposes only. Always follow your institution's protocols and consult current guidelines when treating patients.</p>
         </div>
     </footer>
+
+    <script>
+        // Incidence Chart
+        const incidenceCtx = document.getElementById('incidenceChart').getContext('2d');
+        const incidenceChart = new Chart(incidenceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['General Population', 'ICU Patients', 'Mechanically Ventilated'],
+                datasets: [{
+                    label: 'Incidence per 100,000',
+                    data: [40, 10000, 23000],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(231, 76, 60, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(231, 76, 60, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cases per 100,000'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'ARDS Incidence in Different Populations'
+                    }
+                }
+            }
+        });
+
+        // Mortality Chart
+        const mortalityCtx = document.getElementById('mortalityChart').getContext('2d');
+        const mortalityChart = new Chart(mortalityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mild', 'Moderate', 'Severe', 'Overall'],
+                datasets: [{
+                    label: 'Mortality Rate (%)',
+                    data: [27, 32, 45, 38],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(155, 89, 182, 0.7)',
+                        'rgba(231, 76, 60, 0.7)',
+                        'rgba(241, 196, 15, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(241, 196, 15, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 50,
+                        title: {
+                            display: true,
+                            text: 'Mortality Rate (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'ARDS Mortality by Severity'
+                    }
+                }
+            }
+        });
+
+        // Risk Factors Chart
+        const riskFactorsCtx = document.getElementById('riskFactorsChart').getContext('2d');
+        const riskFactorsChart = new Chart(riskFactorsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pneumonia', 'Non-pulmonary Sepsis', 'Aspiration', 'Trauma', 'Pancreatitis', 'Other'],
+                datasets: [{
+                    data: [35, 25, 15, 10, 5, 10],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(155, 89, 182, 0.7)',
+                        'rgba(241, 196, 15, 0.7)',
+                        'rgba(230, 126, 34, 0.7)',
+                        'rgba(231, 76, 60, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(230, 126, 34, 1)',
+                        'rgba(231, 76, 60, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Common Risk Factors for ARDS'
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
